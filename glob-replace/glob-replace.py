@@ -22,6 +22,8 @@ def replace_indir(extensions, search, replace, cur_dir):
     global searched_files
     global replaced_instances
     for f in filenames:
+        if not os.path.isfile(f):
+            continue
         if not extensions or check_extension(extensions, f):
             for line in fileinput.input(f, inplace=True):
                 if search in line:
@@ -54,7 +56,7 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--replace', help='String to replace the search query with.')
     parser.add_argument('-w', '--walk', action='store_true', default=False, help='Applies the global replacement recursively to sub-directorires.')
     parser.add_argument('-e', '--extensions', help='Only process files with particular extensions. Comma separated, e.g., ".txt,.py"')
-    parser.add_argument('-v', '--version', action='version', version='v. 1.0')
+    parser.add_argument('-v', '--version', action='version', version='v. 1.1')
 
     args = parser.parse_args()
 
