@@ -8,8 +8,8 @@ import fileinput
 import sys
 import os
 
-searched_files = 0
-replaced_instances = 0 
+checked_files = 0
+renamed_instances = 0 
 
 def check_extension(extensions, filename):
     for x in extensions:
@@ -19,15 +19,14 @@ def check_extension(extensions, filename):
 
 def replace_indir(extensions, search, replace, cur_dir):
     filenames = glob.glob(os.path.join(cur_dir,'*'))
-    global searched_files
-    global replaced_instances
+    global checked_files
+    global renamed_instances
     for f in filenames:
         if not extensions or check_extension(extensions, f):
-            for line in fileinput.input(f, inplace=True):
-                if search in line:
-                    replaced_instances += 1
-                sys.stdout.write(line.replace(search, replace))
-            searched_files += 1
+            if search in f:
+                os.rename(f, f.replace(search, replace)) 
+                renamed_instances += 1         
+            checked_files += 1
 
 def run(extensions, search, replace, cur_dir, recursive):
     if recursive:
@@ -43,7 +42,7 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser(
-        description='A command line tool for global replacements of strings in files.',
+        description='A command line tool for global renaming of files.',
         formatter_class=argparse.RawTextHelpFormatter
         )
 
@@ -64,4 +63,4 @@ if __name__ == '__main__':
         
     run(extensions, args.search, args.replace, args.start_dir, args.walk)    
 
-    print('Searched %s file(s) and replaced %s instance(s) of %s' %(searched_files, replaced_instances, args.search))
+    print('Checked %s items and renamed %s files(s) of %s' %(checked_files, renamed_instances, args.search))

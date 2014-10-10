@@ -1,19 +1,22 @@
-# glob-replace
+# glob-rename
 
-A Python command line tool for global replacements of strings in text-formatted files in a single directory or directory tree.
+A Python command line tool for global renaming of files in a single directory or directory tree.
 
 <br>
 <br>
 
 ## Example
 
-An example of replacing all instances of a string 'World' by another string 'Earth' in all .txt files in a directory tree:
+An example of replacing all instances of a string 'file' by another string 'item' in all .txt files in a directory tree:
 
-	./glob-replace.py ./testdir -s World -r Earth -e .txt -w
-	Searched 6 file(s) and replaced 6 instance(s) of World
+	./glob-rename.py testdir/ -s item -r file -w
+	Checked 8 items and renamed 6 files(s) of item
 
+### before:
 ![](./images/img_1.png)
 
+### after:
+![](./images/img_2.png)
 
 <br>
 <br>
@@ -23,11 +26,11 @@ An example of replacing all instances of a string 'World' by another string 'Ear
 An overview of all command line arguments.
 
 
-<pre>./glob-replace.py -h
-usage: glob-replace.py [-h] [-s SEARCH] [-r REPLACE] [-w] [-e EXTENSIONS] [-v]
-                       start_dir
+<pre>./glob-rename.py -h
+usage: glob-rename.py [-h] [-s SEARCH] [-r REPLACE] [-w] [-e EXTENSIONS] [-v]
+                      start_dir
 
-A command line tool for global replacements of strings in files.
+A command line tool for global renaming of files.
 
 positional arguments:
   start_dir
