@@ -6,15 +6,15 @@ A Python command line tool for global replacements of strings in text-formatted 
 <br>
 
 ## Sections
-- [Examples](#Examples)
-- [Usage](#Usage)
-- [Changelog](#Changelog)
+- [Examples](#examples)
+- [Usage](#usage)
+- [Changelog](#changelog)
 
 <br>
 <br>
 
 ## Examples
-[[back to top](#Sections)]
+[[back to top](#sections)]
 
 An example of replacing all instances of a string 'World' by another string 'Earth' in all .txt files in a directory tree:
 
@@ -35,7 +35,7 @@ The optional `-p` (`--print`) flag can be used to  print out the number of repla
 <br>
 
 ## Usage
-[[back to top](#Sections)]
+[[back to top](#sections)]
 
 An overview of all command line arguments.
 
@@ -67,7 +67,7 @@ optional arguments:
 <br>
 
 ## Changelog
-[[back to top](#Sections)]
+[[back to top](#sections)]
 
 ### v1.1
 - Adding the optional `-p` (`--print`) flag to  print out the number of replacements that `glob-replace.py` would make instead of actually replacing those strings.

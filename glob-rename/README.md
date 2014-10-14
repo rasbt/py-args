@@ -6,15 +6,15 @@ A Python command line tool for global renaming of files in a single directory or
 <br>
 
 ## Sections
-- [Examples](#Examples)
-- [Usage](#Usage)
-- [Changelog](#Changelog)
+- [Examples](#examples)
+- [Usage](#usage)
+- [Changelog](#changelog)
 
 <br>
 <br>
 
 ## Examples
-[[back to top](#Sections)]
+[[back to top](#sections)]
 
 An example of replacing all instances of a string 'file' by another string 'item' in all .txt files in a directory tree:
 
@@ -46,7 +46,7 @@ Checked 8 items and would rename 6 files(s).</pre>
 <br>
 
 ## Usage
-[[back to top](#Sections)]
+[[back to top](#sections)]
 
 An overview of all command line arguments.
 
@@ -77,7 +77,7 @@ optional arguments:
 <br>
 
 ## Changelog
-[[back to top](#Sections)]
+[[back to top](#sections)]
 
 ### v1.1
 - Adding the optional `-p` (`--print`) flag to  print out the files that `glob-rename.py` would rename instead of actually renaming them.
