@@ -5,7 +5,16 @@ A Python command line tool for global replacements of strings in text-formatted 
 <br>
 <br>
 
-## Example
+## Sections
+- [Examples](#Examples)
+- [Usage](#Usage)
+- [Changelog](#Changelog)
+
+<br>
+<br>
+
+## Examples
+[[back to top](#Sections)]
 
 An example of replacing all instances of a string 'World' by another string 'Earth' in all .txt files in a directory tree:
 
@@ -14,17 +23,26 @@ An example of replacing all instances of a string 'World' by another string 'Ear
 
 ![](./images/img_1.png)
 
+<br>
+<br>
+
+The optional `-p` (`--print`) flag can be used to  print out the number of replacements that `glob-replace.py` would make instead of actually replacing those strings.
+
+	./glob-replace.py testdir -w -p -s Hello -r Hi
+	Searched 6 file(s) and would replace 6 instance(s) of Hello
 
 <br>
 <br>
 
 ## Usage
+[[back to top](#Sections)]
 
 An overview of all command line arguments.
 
 
 <pre>./glob-replace.py -h
-usage: glob-replace.py [-h] [-s SEARCH] [-r REPLACE] [-w] [-e EXTENSIONS] [-v]
+usage: glob-replace.py [-h] [-s SEARCH] [-r REPLACE] [-w] [-e EXTENSIONS] [-p]
+                       [-v]
                        start_dir
 
 A command line tool for global replacements of strings in files.
@@ -41,4 +59,15 @@ optional arguments:
   -w, --walk            Applies the global replacement recursively to sub-directorires.
   -e EXTENSIONS, --extensions EXTENSIONS
                         Only process files with particular extensions. Comma separated, e.g., ".txt,.py"
+  -p, --print           Prints what it would rename.
   -v, --version         show program's version number and exit</pre>
+
+
+<br>
+<br>
+
+## Changelog
+[[back to top](#Sections)]
+
+### v1.1
+- Adding the optional `-p` (`--print`) flag to  print out the number of replacements that `glob-replace.py` would make instead of actually replacing those strings.

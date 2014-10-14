@@ -17,24 +17,27 @@ def check_extension(extensions, filename):
             return True
     return False
 
-def replace_indir(extensions, search, replace, cur_dir):
+def replace_indir(extensions, search, replace, cur_dir, print_out):
     filenames = glob.glob(os.path.join(cur_dir,'*'))
     global checked_files
     global renamed_instances
     for f in filenames:
         if not extensions or check_extension(extensions, f):
             if search in f:
-                os.rename(f, f.replace(search, replace)) 
+                if not print_out:
+                    os.rename(f, f.replace(search, replace)) 
+                else:
+                    print('%s --> %s' %(f, f.replace(search, replace)))
                 renamed_instances += 1         
             checked_files += 1
 
-def run(extensions, search, replace, cur_dir, recursive):
+def run(extensions, search, replace, cur_dir, recursive, print_out):
     if recursive:
         tree = os.walk(cur_dir)
         for d in tree:
-            replace_indir(extensions, search, replace, cur_dir=d[0])
+            replace_indir(extensions, search, replace, cur_dir=d[0], print_out=print_out)
     else:
-        replace_indir(extensions, search, replace, cur_dir=cur_dir)  
+        replace_indir(extensions, search, replace, cur_dir=cur_dir, print_out=print_out)  
 		
 		
 if __name__ == '__main__':
@@ -53,7 +56,8 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--replace', help='String to replace the search query with.')
     parser.add_argument('-w', '--walk', action='store_true', default=False, help='Applies the global replacement recursively to sub-directorires.')
     parser.add_argument('-e', '--extensions', help='Only process files with particular extensions. Comma separated, e.g., ".txt,.py"')
-    parser.add_argument('-v', '--version', action='version', version='v. 1.0')
+    parser.add_argument('-p', '--print', action='store_true', help='Prints what it would rename.')
+    parser.add_argument('-v', '--version', action='version', version='v. 1.1')
 
     args = parser.parse_args()
 
@@ -61,6 +65,10 @@ if __name__ == '__main__':
     if args.extensions:
         extensions = args.extensions.split(',')
         
-    run(extensions, args.search, args.replace, args.start_dir, args.walk)    
+    run(extensions, args.search, args.replace, args.start_dir, args.walk, args.print)    
 
-    print('Checked %s items and renamed %s files(s) of %s' %(checked_files, renamed_instances, args.search))
+    would = 'renamed'
+    if args.print:
+        would = 'would rename'
+    print('Checked %s items and %s %s files(s).' %(checked_files, would, renamed_instances))
+
