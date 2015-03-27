@@ -79,5 +79,10 @@ optional arguments:
 ## Changelog
 [[back to top](#sections)]
 
-### v1.1
+### v1.0.2
+- Skips files where renaming wouldn't result in a file name change for better efficiency.
+- Added options `<lowercase>` and `<uppercase>`.
+
+
+### v1.0.1
 - Adding the optional `-p` (`--print`) flag to  print out the files that `glob-rename.py` would rename instead of actually renaming them.

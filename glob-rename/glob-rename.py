@@ -24,11 +24,24 @@ def replace_indir(extensions, search, replace, cur_dir, print_out):
     for f in filenames:
         if not extensions or check_extension(extensions, f):
             if search in f:
-                if not print_out:
-                    os.rename(f, f.replace(search, replace)) 
+                    
+                # replace
+                old_file = os.path.basename(f)
+                
+                if replace == '<lowercase>':
+                    new_file = os.path.basename(f).lower()
+                elif replace == '<uppercase>':
+                    new_file = os.path.basename(f).upper()
                 else:
-                    print('%s --> %s' %(f, f.replace(search, replace)))
-                renamed_instances += 1         
+                    new_file = os.path.basename(f).replace(search, replace)
+                
+                if old_file != new_file:
+                    new_path = os.path.join(os.path.dirname(f), new_file)
+                    if not print_out:
+                        os.rename(f, new_path) 
+                    else:
+                        print('%s --> %s' %(f, new_path))
+                    renamed_instances += 1         
             checked_files += 1
 
 def run(extensions, search, replace, cur_dir, recursive, print_out):
@@ -52,12 +65,12 @@ if __name__ == '__main__':
 
     parser.add_argument('start_dir')
 
-    parser.add_argument('-s', '--search', help='String to be replaced.')
-    parser.add_argument('-r', '--replace', help='String to replace the search query with.')
+    parser.add_argument('-s', '--search', default='', help='String to be replaced (default:"").')
+    parser.add_argument('-r', '--replace', help='String to replace the search query with.\nOther options: "<lowercase>", "<uppercase>" .')
     parser.add_argument('-w', '--walk', action='store_true', default=False, help='Applies the global replacement recursively to sub-directorires.')
     parser.add_argument('-e', '--extensions', help='Only process files with particular extensions. Comma separated, e.g., ".txt,.py"')
     parser.add_argument('-p', '--print', action='store_true', help='Prints what it would rename.')
-    parser.add_argument('-v', '--version', action='version', version='v. 1.1')
+    parser.add_argument('-v', '--version', action='version', version='v. 1.0.2')
 
     args = parser.parse_args()
 
