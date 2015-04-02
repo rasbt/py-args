@@ -39,7 +39,7 @@ def replace_indir(extensions, search, replace, cur_dir, print_out):
         
         replaced_instances += found
         searched_files += 1
-        if print_out and found:
+        if found:
             print('%d x in %s' % (found, f))
 
 def run(extensions, search, replace, cur_dir, recursive, print_out):
