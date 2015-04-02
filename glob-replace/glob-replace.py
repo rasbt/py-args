@@ -22,6 +22,7 @@ def replace_indir(extensions, search, replace, cur_dir, print_out):
     global searched_files
     global replaced_instances
     for f in filenames:
+        found = 0
         if not os.path.isfile(f):
             continue
         if not extensions or check_extension(extensions, f):
@@ -29,13 +30,17 @@ def replace_indir(extensions, search, replace, cur_dir, print_out):
                 with open(f, 'r') as in_file:
                     for line in in_file:
                         if search in line:
-                            replaced_instances += 1
+                            found += 1
             else:
                 for line in fileinput.input(f, inplace=True):
                     if search in line:
-                        replaced_instances += 1
+                        found += 1
                     sys.stdout.write(line.replace(search, replace))
-            searched_files += 1
+        
+        replaced_instances += found
+        searched_files += 1
+        if print_out and found:
+            print('%d x in %s' % (found, f))
 
 def run(extensions, search, replace, cur_dir, recursive, print_out):
     if recursive:
