@@ -68,6 +68,8 @@ optional arguments:
   -r REPLACE, --replace REPLACE
                         String to replace the search query with.
   -w, --walk            Applies the global replacement recursively to sub-directorires.
+  -d, --directories     Rename directories as well.
+
   -e EXTENSIONS, --extensions EXTENSIONS
                         Only process files with particular extensions. Comma separated, e.g., ".txt,.py"
   -p, --print           Prints what it would rename.
@@ -78,6 +80,9 @@ optional arguments:
 
 ## Changelog
 [[back to top](#sections)]
+
+### v1.1.0
+- Adds an option to also rename directories.
 
 ### v1.0.2
 - Skips files where renaming wouldn't result in a file name change for better efficiency.
