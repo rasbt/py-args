@@ -59,6 +59,8 @@ optional arguments:
   -w, --walk            Applies the global replacement recursively to sub-directorires.
   -e EXTENSIONS, --extensions EXTENSIONS
                         Only process files with particular extensions. Comma separated, e.g., ".txt,.py"
+  -b, --skip_binary     Skips binary files if enabled (may result in false 
+                        positives and negatives).
   -p, --print           Prints what it would rename.
   -v, --version         show program's version number and exit</pre>
 
@@ -69,5 +71,8 @@ optional arguments:
 ## Changelog
 [[back to top](#sections)]
 
+### v1.2
+- Adds an optional `-b` (`--skip_binary`) flag to skip binary files.
+
 ### v1.1
-- Adding the optional `-p` (`--print`) flag to  print out the number of replacements that `glob-replace.py` would make instead of actually replacing those strings.
+- Adds an optional `-p` (`--print`) flag to  print out the number of replacements that `glob-replace.py` would make instead of actually replacing those strings.
