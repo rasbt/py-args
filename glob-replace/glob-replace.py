@@ -46,21 +46,28 @@ def replace_indir(extensions, search, replace,
                 continue
         if not extensions or check_extension(extensions, f):
             if print_out:
-                with open(f, 'r') as in_file:
+                with open(f, 'r', encoding="ISO-8859-1") as in_file:
                     try:
                         for line in in_file:
                             if search in line:
                                 found += 1
                     except UnicodeDecodeError as e:
-                        print('ERROR: File may be binary. You can try to'
-                              ' skip binary by using the --skip_binary flag')
+                        print('ERROR: File %s may be binary. You can try to'
+                              ' skip binary by using the --skip_binary flag' %
+                              f)
                         raise e
 
             else:
-                for line in fileinput.input(f, inplace=True):
+                for line in fileinput.input(f, inplace=True, mode='rU'):
                     if search in line:
                         found += 1
-                    sys.stdout.write(line.replace(search, replace))
+                    try:
+                        sys.stdout.write(line.replace(search, replace))
+                    except UnicodeDecodeError as e:
+                        print('ERROR: File %s may be binary. You can try to'
+                              ' skip binary by using the --skip_binary flag' %
+                              f)
+                        raise e
 
         replaced_instances += found
         searched_files += 1
@@ -97,6 +104,9 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--search', help='String to be replaced.')
     parser.add_argument('-r', '--replace', help='String to replace the search '
                         'query with.')
+    parser.add_argument('-f', '--replace_from_file', help='Link to a text '
+                        'file that contains the text to replace the'
+                        ' query with')
     parser.add_argument('-w', '--walk', action='store_true', default=False,
                         help='Applies the global replacement recursively to '
                         'sub-directorires.')
@@ -113,11 +123,24 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    if args.replace and args.replace_from_file:
+        raise AttributeError("Can't have both -r/--replace and "
+                             "--replace_from_file/-f flags at the same time.")
+
+    if args.replace:
+        replace = args.replace
+    elif args.replace_from_file:
+        with open(args.replace_from_file, 'r', encoding="ISO-8859-1") as f:
+            replace = f.read()
+    else:
+        raise AttributeError("Must use either the -r/--replace or "
+                             "--replace_from_file/-f flag.")
+
     extensions = False
     if args.extensions:
         extensions = args.extensions.split(',')
 
-    run(extensions, args.search, args.replace,
+    run(extensions, args.search, replace,
         args.start_dir, args.walk, args.print, args.skip_binary)
 
     would = 'replaced'

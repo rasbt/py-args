@@ -56,6 +56,8 @@ optional arguments:
                         String to be replaced.
   -r REPLACE, --replace REPLACE
                         String to replace the search query with.
+  -f REPLACE_FROM_FILE, --replace_from_file REPLACE_FROM_FILE
+                      Link to a text file that contains the text to replace the query with
   -w, --walk            Applies the global replacement recursively to sub-directorires.
   -e EXTENSIONS, --extensions EXTENSIONS
                         Only process files with particular extensions. Comma separated, e.g., ".txt,.py"
@@ -70,6 +72,9 @@ optional arguments:
 
 ## Changelog
 [[back to top](#sections)]
+
+### v1.3
+- Adds an option to read the string that is used for replacement from an external text file.
 
 ### v1.2
 - Adds an optional `-b` (`--skip_binary`) flag to skip binary files.
