@@ -16,20 +16,35 @@ A Python command line tool for global replacements of strings in text-formatted 
 ## Examples
 [[back to top](#sections)]
 
-An example of replacing all instances of a string 'World' by another string 'Earth' in all .txt files in a directory tree:
+The `glob-replace` utility script can come in handy for replacing certain words or phrases in a collection of files. For example, if you are interested in bumping a "Copyright 2013-2022" to "Copyright 2013-2023" on your personal website or code repository.
 
-	./glob-replace.py ./testdir -s World -r Earth -e .txt -w
-	Searched 6 file(s) and replaced 6 instance(s) of World
+I recommend doing this in 3 steps:
 
-![](./images/img_1.png)
+**Step 1: Create a backup**
 
-<br>
-<br>
+Make a copy of the target folder (for the just-in-case scenario).
 
-The optional `-p` (`--print`) flag can be used to  print out the number of replacements that `glob-replace.py` would make instead of actually replacing those strings.
+```bash
+rsync -avP personal-website ~/Desktop/personal-website-backup
+```
 
-	./glob-replace.py testdir -w -p -s Hello -r Hi
-	Searched 6 file(s) and would replace 6 instance(s) of Hello
+**Step 2: Dry run**
+
+Run the replacement command using the `--print` flag, which just prints the files it would change.
+
+```bash
+python glob-replace.py personal-website --walk --search "2013-2022" --replace "2013-2023" --print 
+```
+
+**Step 3: Apply the changes**
+
+Run the replacement command without the `--print` flag to make the actual changes.
+
+```python
+python glob-replace.py personal-website --walk --search "2013-2022" --replace "2013-2023"
+```
+
+
 
 <br>
 <br>
