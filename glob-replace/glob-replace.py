@@ -29,6 +29,11 @@ def is_binary(filepath):
     return bool(content.translate(None, TEXTCHARS))
 
 
+def is_invisible(path):
+    fp = os.path.basename(path)
+    return fp.startswith((".", "__"))
+
+
 def replace_indir(extensions, search, replace,
                   cur_dir, print_out, skip_binary):
     filenames = glob.glob(os.path.join(cur_dir, '*'))
@@ -44,6 +49,7 @@ def replace_indir(extensions, search, replace,
             if is_binary(f):
                 searched_files += 1
                 continue
+
         if not extensions or check_extension(extensions, f):
             if print_out:
                 with open(f, 'r', encoding="ISO-8859-1") as in_file:
@@ -76,10 +82,13 @@ def replace_indir(extensions, search, replace,
 
 
 def run(extensions, search, replace, cur_dir,
-        recursive, print_out, skip_binary):
+        recursive, print_out, skip_binary, skip_invisible):
     if recursive:
         tree = os.walk(cur_dir)
         for d in tree:
+            if skip_invisible:
+                if is_invisible(os.path.basename(d[0])):
+                    continue
             replace_indir(extensions, search, replace,
                           cur_dir=d[0], print_out=print_out,
                           skip_binary=skip_binary)
@@ -113,13 +122,17 @@ if __name__ == '__main__':
     parser.add_argument('-e', '--extensions', help='Only process files with '
                         'particular extensions. '
                         'Comma separated, e.g., ".txt,.py"')
+    parser.add_argument('--skip_invisible', help='Skips files and folders '
+                        'starting with a leading period or two leading '
+                        'underscores (e.g., `.git` or `__pycache__`).',
+                        action='store_true', default=False)
     parser.add_argument('-p', '--print', action='store_true',
                         help='Prints what it would rename.')
     parser.add_argument('-b', '--skip_binary', action='store_true',
                         help=('Skips binary files if enabled '
                               '(may result in false positives'
                               ' and negatives).'))
-    parser.add_argument('-v', '--version', action='version', version='v. 1.1')
+    parser.add_argument('-v', '--version', action='version', version='v. 1.2')
 
     args = parser.parse_args()
 
@@ -141,7 +154,8 @@ if __name__ == '__main__':
         extensions = args.extensions.split(',')
 
     run(extensions, args.search, replace,
-        args.start_dir, args.walk, args.print, args.skip_binary)
+        args.start_dir, args.walk, args.print, args.skip_binary,
+        skip_invisible=args.skip_invisible)
 
     would = 'replaced'
     if args.print:
